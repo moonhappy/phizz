@@ -1,0 +1,213 @@
+# Milestone 1: Core Engine Proof of Concept
+
+---
+
+## Epic: Environment Setup & Dependency Management
+
+**Labels:** `epic`, `PoC`, `environment`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** N/A (Foundation for all other requirements)
+
+**Scope:** This epic covers the complete setup of the development environment and all necessary dependencies for the server application.
+
+**Summary:** Prepare a consistent and reproducible development environment on the target OS (Ubuntu Server). This includes installing the base language/runtime, build tools, and all required native libraries for disc playback.
+
+**Implementation Details:** N/A
+
+**Acceptance Criteria:**
+- A developer can clone the repository and, by following a documented setup script or guide, have a fully functional build and run environment.
+- All specified dependencies (`libbluray`, `libdvdnav`, etc.) are installed and accessible to the build system.
+
+### Task: Setup Kotlin Development Environment
+
+**Labels:** `task`, `PoC`, `environment`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** N/A
+
+**Scope:** Install and configure the Kotlin language runtime, JDK, and the Gradle build tool.
+
+**Summary:** This task involves setting up the foundational tools required to compile and run a Kotlin application on Ubuntu Server.
+
+**Implementation Details:**
+- Install OpenJDK (e.g., version 17).
+- Install the latest stable version of Gradle.
+- Create a basic `build.gradle.kts` file that initializes a Kotlin project.
+- Create a simple "Hello, World!" Kotlin file (`Main.kt`) to verify the setup.
+
+**Acceptance Criteria:**
+- The command `./gradlew run` successfully executes the "Hello, World!" application.
+- The project structure is committed to the Git repository.
+
+### Task: Install and Validate Native Libraries
+
+**Labels:** `task`, `PoC`, `environment`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.4, FR1.5
+
+**Scope:** Install `libbluray`, `libdvdnav`, and all their required dependencies (`libudf`, `libaacs`, etc.) on the Ubuntu Server.
+
+**Summary:** This task ensures that the core C libraries needed for playback are present and correctly installed on the system.
+
+**Implementation Details:**
+- Use `apt-get` to install the development packages for `libbluray-dev` and `libdvdnav-dev`.
+- Verify that all shared object files (`.so`) are installed in standard system library paths (e.g., `/usr/lib/x86_64-linux-gnu/`).
+- Use a command-line tool like `bd_info` (if available) or a simple C program to confirm that the libraries can be linked against.
+
+**Acceptance Criteria:**
+- The `ldconfig -p | grep libbluray` and `ldconfig -p | grep libdvdnav` commands show that the libraries are found.
+- A simple test program can successfully call a basic function from each library (e.g., `bd_open`, `dvdnav_open`).
+
+---
+
+## Epic: Native Library Integration (JNA)
+
+**Labels:** `epic`, `PoC`, `integration`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.4, FR1.5
+
+**Scope:** This epic focuses on establishing the crucial link between the Kotlin/JVM environment and the native C libraries (`libbluray`, `libdvdnav`) using Java Native Access (JNA).
+
+**Summary:** Create the necessary Kotlin interfaces and data structures that mirror the native library APIs. This allows the main application to call C functions as if they were native Kotlin methods.
+
+**Implementation Details:** N/A
+
+**Acceptance Criteria:**
+- The Kotlin application can successfully call functions in both `libbluray` and `libdvdnav` and receive data back without memory errors.
+
+### Task: Create JNA Bindings for libbluray
+
+**Labels:** `task`, `PoC`, `integration`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.4
+
+**Scope:** Define the Kotlin interfaces and data classes required to interact with the core functions of `libbluray`.
+
+**Summary:** This task involves mapping `libbluray`'s C functions, pointers, and structs to their JNA equivalents in Kotlin.
+
+**Implementation Details:**
+- Add the JNA dependency to `build.gradle.kts`.
+- Create a `LibBluRay.kt` interface that extends JNA's `Library`.
+- Define mappings for key functions like `bd_open`, `bd_get_titles`, `bd_select_title`, `bd_close`.
+- Define `Pointer` types and `Structure` subclasses for any data objects passed between Kotlin and the native library.
+
+**Acceptance Criteria:**
+- The Kotlin application can call `bd_open` with a valid .iso path and receive a non-null pointer (handle) in return.
+- The application can call `bd_close` on the handle without crashing.
+
+### Task: Create JNA Bindings for libdvdnav
+
+**Labels:** `task`, `PoC`, `integration`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.5
+
+**Scope:** Define the Kotlin interfaces and data classes required to interact with the core functions of `libdvdnav`.
+
+**Summary:** This task involves mapping `libdvdnav`'s C functions and data types to their JNA equivalents in Kotlin.
+
+**Implementation Details:**
+- Create a `LibDvdNav.kt` interface that extends JNA's `Library`.
+- Define mappings for key functions like `dvdnav_open`, `dvdnav_get_number_of_titles`, `dvdnav_close`.
+- This is generally simpler than `libbluray` but follows the same pattern.
+
+**Acceptance Criteria:**
+- The Kotlin application can call `dvdnav_open` with a valid .iso path and receive a non-null pointer (handle) in return.
+- The application can call `dvdnav_close` on the handle without crashing.
+
+---
+
+## Epic: Core Playback Logic Proof of Concept
+
+**Labels:** `epic`, `PoC`, `development`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.3, FR1.6, FR1.8, FR1.9
+
+**Scope:** This epic builds on the JNA integration to create a command-line application that simulates a full, albeit simplified, playback session.
+
+**Summary:** Develop the main application logic that uses the JNA bindings to open a disc, query its contents, simulate menu navigation, and read media frames. This forms the core of the "virtual player" engine.
+
+**Implementation Details:** N/A
+
+**Acceptance Criteria:**
+- The final command-line application successfully demonstrates the ability to open an ISO, list its contents, and simulate basic interaction, proving the viability of the core technical approach.
+
+### Task: Implement ISO Loading and Title Discovery
+
+**Labels:** `task`, `PoC`, `development`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.3
+
+**Scope:** Create a function that takes a file path to an .iso and uses the JNA bindings to open it and list its contents.
+
+**Summary:** This is the first step in interacting with a disc. The application needs to be able to open the ISO file and query it for basic information, like the number and types of titles available.
+
+**Implementation Details:**
+- Create a `Player` class.
+- The class constructor will take a file path.
+- Inside the constructor, it will call the appropriate JNA function (`bd_open` or `dvdnav_open`).
+- Implement a method `listTitles()` that calls `bd_get_titles` (or equivalent) and prints the number of titles, their durations, and the number of audio/subtitle tracks for each.
+
+**Acceptance Criteria:**
+- Running the application with a path to a Blu-ray ISO prints a correct list of titles and their properties.
+- Running the application with a path to a DVD ISO prints a correct list of titles.
+- The application handles errors gracefully if the file path is invalid.
+
+### Task: Implement Basic Playback and Frame Reading
+
+**Labels:** `task`, `PoC`, `development`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.6
+
+**Scope:** Extend the `Player` class to select a title and read the raw audio/video frames.
+
+**Summary:** This task simulates the "playback" part of the engine. While we won't be decoding/rendering the frames yet, we need to prove that we can successfully pull the media data from the disc structure.
+
+**Implementation Details:**
+- Create a method `playTitle(titleNumber: Int)`.
+- This method will call `bd_select_title`.
+- Implement a loop that calls `bd_read_packet` (or the relevant function to get the next A/V frame/packet).
+- For the PoC, the loop can simply run for a few seconds, printing the size and type of each packet it reads to the console.
+
+**Acceptance Criteria:**
+- When `playTitle` is called, the console shows a continuous stream of packet information (e.g., "Read video packet, size: 15000 bytes").
+- The loop can be started and stopped cleanly.
+
+### Task: Implement Simulated Menu Navigation
+
+**Labels:** `task`, `PoC`, `development`
+
+**Milestone:** `Milestone 1`
+
+**Requirement:** FR1.8, FR1.9
+
+**Scope:** Create a simple interactive command-line loop to simulate remote control commands.
+
+**Summary:** This task validates that we can send user commands to the playback engine to navigate menus. This is the most critical part of the PoC for interactivity.
+
+**Implementation Details:**
+- Create a `main` loop that reads input from the console (e.g., 'w' for up, 's' for down, 'e' for enter).
+- Map these inputs to the corresponding `libbluray` navigation functions (e.g., `bd_send_key`).
+- The playback loop from the previous task should be running concurrently, so that when a menu navigation command is sent, the resulting change in the A/V stream (even if just raw packet data) can be observed.
+
+**Acceptance Criteria:**
+- The application starts, opens an ISO, and begins "playing" the main menu.
+- Entering 'w', 's', 'a', 'd' in the console sends the corresponding arrow key commands to `libbluray`.
+- Entering 'e' sends the "enter" command.
+- The output of the frame reading task changes in response to navigation commands, indicating that menu selections are working.
