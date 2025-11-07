@@ -26,7 +26,7 @@ dependencies {
 
 application {
     mainClass.set("phizz.MainKt")
-    applicationDefaultJvmArgs = listOf("-Djna.library.path=/opt/homebrew/lib")
+
 }
 
 tasks.withType<Jar> {

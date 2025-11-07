@@ -1,0 +1,25 @@
+{
+    "name": "Phizz Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "runArgs": ["--init", "--memory=6g"],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "java.import.gradle.java.home": "${containerEnv:JAVA_HOME}"
+            },
+            "extensions": [
+                "kotlin.kotlin",
+                "vscjava.vscode-java-pack",
+                "ms-vscode.java",
+                "redhat.vscode-xml",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    },
+    "forwardPorts": [],
+    "postCreateCommand": "export JAVA_HOME=$(find /usr/lib/jvm -name \"java-*-openjdk-*\" -type d | head -n 1) && ./gradlew build",
+    "remoteUser": "vscode"
+}

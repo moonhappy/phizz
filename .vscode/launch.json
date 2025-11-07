@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run with Gradle",
+            "type": "java",
+            "request": "launch",
+            "mainClass": "phizz.MainKt",
+            "classPaths": ["${workspaceFolder}/build/classes/kotlin/main", "${workspaceFolder}/build/libs/*"],
+            "preLaunchTask": "run"
+        },
+        {
+            "name": "Debug with Gradle",
+            "type": "java",
+            "request": "launch",
+            "mainClass": "phizz.MainKt",
+            "classPaths": ["${workspaceFolder}/build/classes/kotlin/main", "${workspaceFolder}/build/libs/*"],
+            "preLaunchTask": "build"
+        }
+    ]
+}
