@@ -10,14 +10,17 @@ Before defining the implementation, we must address the critical open questions 
 
 1.  **Encryption (Critical):**
     *   **Assumption:** For this implementation plan, we will assume the .iso files are **unencrypted**.
-    *   **Contingency:** If the files are encrypted with AACS, the scope of the project increases significantly. It would require integrating a decryption library and managing a key database (e.g., `KEYDB.cfg`). This would add an estimated 2-3 weeks to the timeline for research, implementation, and testing. **This question must be answered before development begins.**
+    *   ~~**Contingency:** If the files are encrypted with AACS, the scope of the project increases significantly. It would require integrating a decryption library and managing a key database (e.g., `KEYDB.cfg`). This would add an estimated 2-3 weeks to the timeline for research, implementation, and testing. **This question must be answered before development begins.**~~
+    *   _**Confirmation:** The assumption is correct, this project does not need to handle any DVD/BD decryption, as the ISO files are not encrypted._
 
 2.  **Core Engine:**
     *   **Recommendation:** We will use **libbluray** and **libdvdnav**. These open-source libraries are the de-facto standard for Blu-ray and DVD navigation and are capable of handling complex menus, including BD-J. They are mature, well-documented, and provide the necessary foundation for the "virtual player" engine.
+    *   _**Confirmation:** Use the libraries recommended._
 
 3.  **Streaming Protocol:**
     *   **Recommendation:** We will use **WebRTC** (Web Real-Time Communication).
     *   **Justification:** WebRTC is designed for low-latency, peer-to-peer communication, which directly addresses the requirement for responsive menu navigation (NFR1.2). It streams H.264 video directly between the server and the browser without intermediate transcoding, preserving quality.
+    *   _**Confirmation:** Use WebRTC as recommended._
 
 4.  **Hardware Recommendation (for 3 concurrent streams):**
     *   **Minimum:**
