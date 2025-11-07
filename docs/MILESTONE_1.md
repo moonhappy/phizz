@@ -2,7 +2,7 @@
 
 ---
 
-## Epic: Environment Setup & Dependency Management
+## 1. Epic: Environment Setup & Dependency Management
 
 **Labels:** `epic`, `PoC`, `environment`
 
@@ -20,7 +20,7 @@
 - A developer can clone the repository and, by following a documented setup script or guide, have a fully functional build and run environment.
 - All specified dependencies (`libbluray`, `libdvdnav`, etc.) are installed and accessible to the build system.
 
-### Task: Setup Kotlin Development Environment
+### 1.1. Task: Setup Kotlin Development Environment
 
 **Labels:** `task`, `PoC`, `environment`
 
@@ -42,7 +42,7 @@
 - The command `./gradlew run` successfully executes the "Hello, World!" application.
 - The project structure is committed to the Git repository.
 
-### Task: Install and Validate Native Libraries
+### 1.2. Task: Install and Validate Native Libraries
 
 **Labels:** `task`, `PoC`, `environment`
 
@@ -65,7 +65,7 @@
 
 ---
 
-## Epic: Native Library Integration (JNA)
+## 2. Epic: Native Library Integration (JNA)
 
 **Labels:** `epic`, `PoC`, `integration`
 
@@ -82,7 +82,7 @@
 **Acceptance Criteria:**
 - The Kotlin application can successfully call functions in both `libbluray` and `libdvdnav` and receive data back without memory errors.
 
-### Task: Create JNA Bindings for libbluray
+### 2.1. Task: Create JNA Bindings for libbluray
 
 **Labels:** `task`, `PoC`, `integration`
 
@@ -104,7 +104,7 @@
 - The Kotlin application can call `bd_open` with a valid .iso path and receive a non-null pointer (handle) in return.
 - The application can call `bd_close` on the handle without crashing.
 
-### Task: Create JNA Bindings for libdvdnav
+### 2.2. Task: Create JNA Bindings for libdvdnav
 
 **Labels:** `task`, `PoC`, `integration`
 
@@ -127,7 +127,7 @@
 
 ---
 
-## Epic: Core Playback Logic Proof of Concept
+## 3. Epic: Core Playback Logic Proof of Concept
 
 **Labels:** `epic`, `PoC`, `development`
 
@@ -144,7 +144,7 @@
 **Acceptance Criteria:**
 - The final command-line application successfully demonstrates the ability to open an ISO, list its contents, and simulate basic interaction, proving the viability of the core technical approach.
 
-### Task: Implement ISO Loading and Title Discovery
+### 3.1. Task: Implement ISO Loading and Title Discovery
 
 **Labels:** `task`, `PoC`, `development`
 
@@ -167,7 +167,7 @@
 - Running the application with a path to a DVD ISO prints a correct list of titles.
 - The application handles errors gracefully if the file path is invalid.
 
-### Task: Implement Basic Playback and Frame Reading
+### 3.2. Task: Implement Basic Playback and Frame Reading
 
 **Labels:** `task`, `PoC`, `development`
 
@@ -189,7 +189,7 @@
 - When `playTitle` is called, the console shows a continuous stream of packet information (e.g., "Read video packet, size: 15000 bytes").
 - The loop can be started and stopped cleanly.
 
-### Task: Implement Simulated Menu Navigation
+### 3.3. Task: Implement Simulated Menu Navigation
 
 **Labels:** `task`, `PoC`, `development`
 
