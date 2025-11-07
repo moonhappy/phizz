@@ -4,8 +4,8 @@
 
 ## 1. Epic: Environment Setup & Dependency Management
 
-- [x] To Do
-- [ ] In Progress
+- [ ] To Do
+- [x] In Progress
 - [ ] Ready to Test
 - [ ] Done
 
@@ -27,9 +27,9 @@
 
 ### 1.1. Task: Setup Kotlin Development Environment
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
-- [ ] Ready to Test
+- [x] Ready to Test
 - [ ] Done
 
 **Labels:** `task`, `PoC`, `environment`
@@ -54,8 +54,8 @@
 
 ### 1.2. Task: Install and Validate Native Libraries
 
-- [x] To Do
-- [ ] In Progress
+- [ ] To Do
+- [x] In Progress
 - [ ] Ready to Test
 - [ ] Done
 
