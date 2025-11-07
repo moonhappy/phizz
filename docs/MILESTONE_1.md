@@ -5,9 +5,9 @@
 ## 1. Epic: Environment Setup & Dependency Management
 
 - [ ] To Do
-- [x] In Progress
+- [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `epic`, `PoC`, `environment`
 
@@ -29,8 +29,8 @@
 
 - [ ] To Do
 - [ ] In Progress
-- [x] Ready to Test
-- [ ] Done
+- [ ] Ready to Test
+- [x] Done
 
 **Labels:** `task`, `PoC`, `environment`
 
@@ -55,9 +55,9 @@
 ### 1.2. Task: Install and Validate Native Libraries
 
 - [ ] To Do
-- [x] In Progress
+- [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `PoC`, `environment`
 
@@ -82,10 +82,10 @@
 
 ## 2. Epic: Native Library Integration (JNA)
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `epic`, `PoC`, `integration`
 
@@ -104,10 +104,10 @@
 
 ### 2.1. Task: Create JNA Bindings for libbluray
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `PoC`, `integration`
 
@@ -131,10 +131,10 @@
 
 ### 2.2. Task: Create JNA Bindings for libdvdnav
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `PoC`, `integration`
 
@@ -159,10 +159,10 @@
 
 ## 3. Epic: Core Playback Logic Proof of Concept
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `epic`, `PoC`, `development`
 
@@ -181,10 +181,10 @@
 
 ### 3.1. Task: Implement ISO Loading and Title Discovery
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `PoC`, `development`
 
@@ -209,10 +209,10 @@
 
 ### 3.2. Task: Implement Basic Playback and Frame Reading
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `PoC`, `development`
 
@@ -236,10 +236,10 @@
 
 ### 3.3. Task: Implement Simulated Menu Navigation
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `PoC`, `development`
 
