@@ -4,6 +4,11 @@
 
 ## 1. Epic: Environment Setup & Dependency Management
 
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
+
 **Labels:** `epic`, `PoC`, `environment`
 
 **Milestone:** `Milestone 1`
@@ -21,6 +26,11 @@
 - All specified dependencies (`libbluray`, `libdvdnav`, etc.) are installed and accessible to the build system.
 
 ### 1.1. Task: Setup Kotlin Development Environment
+
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
 
 **Labels:** `task`, `PoC`, `environment`
 
@@ -43,6 +53,11 @@
 - The project structure is committed to the Git repository.
 
 ### 1.2. Task: Install and Validate Native Libraries
+
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
 
 **Labels:** `task`, `PoC`, `environment`
 
@@ -67,6 +82,11 @@
 
 ## 2. Epic: Native Library Integration (JNA)
 
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
+
 **Labels:** `epic`, `PoC`, `integration`
 
 **Milestone:** `Milestone 1`
@@ -83,6 +103,11 @@
 - The Kotlin application can successfully call functions in both `libbluray` and `libdvdnav` and receive data back without memory errors.
 
 ### 2.1. Task: Create JNA Bindings for libbluray
+
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
 
 **Labels:** `task`, `PoC`, `integration`
 
@@ -105,6 +130,11 @@
 - The application can call `bd_close` on the handle without crashing.
 
 ### 2.2. Task: Create JNA Bindings for libdvdnav
+
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
 
 **Labels:** `task`, `PoC`, `integration`
 
@@ -129,6 +159,11 @@
 
 ## 3. Epic: Core Playback Logic Proof of Concept
 
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
+
 **Labels:** `epic`, `PoC`, `development`
 
 **Milestone:** `Milestone 1`
@@ -145,6 +180,11 @@
 - The final command-line application successfully demonstrates the ability to open an ISO, list its contents, and simulate basic interaction, proving the viability of the core technical approach.
 
 ### 3.1. Task: Implement ISO Loading and Title Discovery
+
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
 
 **Labels:** `task`, `PoC`, `development`
 
@@ -169,6 +209,11 @@
 
 ### 3.2. Task: Implement Basic Playback and Frame Reading
 
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
+
 **Labels:** `task`, `PoC`, `development`
 
 **Milestone:** `Milestone 1`
@@ -190,6 +235,11 @@
 - The loop can be started and stopped cleanly.
 
 ### 3.3. Task: Implement Simulated Menu Navigation
+
+- [x] To Do
+- [ ] In Progress
+- [ ] Ready to Test
+- [ ] Done
 
 **Labels:** `task`, `PoC`, `development`
 
