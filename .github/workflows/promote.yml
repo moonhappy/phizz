@@ -1,0 +1,26 @@
+name: Promote Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version to promote to latest'
+        required: true
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote image
+        run: |
+          docker pull ghcr.io/moonhappy/phizz:${{ github.event.inputs.version }}
+          docker tag ghcr.io/moonhappy/phizz:${{ github.event.inputs.version }} ghcr.io/moonhappy/phizz:latest
+          docker push ghcr.io/moonhappy/phizz:latest
