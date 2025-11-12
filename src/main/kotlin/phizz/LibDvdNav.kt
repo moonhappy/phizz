@@ -20,4 +20,12 @@ interface LibDvdNav : Library {
         dvdnav_close(dvdnav)
         logger.trace { "Exiting dvdnav_close" }
     }
+
+    fun dvdnav_get_number_of_titles(dvdnav: Pointer?, num_titles: com.sun.jna.ptr.IntByReference): Int {
+        logger.trace { "Entering dvdnav_get_number_of_titles(dvdnav=$dvdnav)" }
+        val result = dvdnav_get_number_of_titles(dvdnav, num_titles)
+        logger.info { "dvdnav_get_number_of_titles returned $result, num_titles=${num_titles.value}" }
+        logger.trace { "Exiting dvdnav_get_number_of_titles" }
+        return result
+    }
 }

@@ -82,9 +82,9 @@
 
 ## 2. Epic: Native Library Integration (JNA)
 
-- [ ] To Do
-- [ ] In Progress
-- [ ] Ready to Test
+- [x] Done
+- [x] Done
+- [x] Done
 - [x] Done
 
 **Labels:** `epic`, `PoC`, `integration`
@@ -104,9 +104,9 @@
 
 ### 2.1. Task: Create JNA Bindings for libbluray
 
-- [ ] To Do
-- [ ] In Progress
-- [ ] Ready to Test
+- [x] Done
+- [x] Done
+- [x] Done
 - [x] Done
 
 **Labels:** `task`, `PoC`, `integration`
