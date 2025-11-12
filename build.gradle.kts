@@ -29,6 +29,13 @@ application {
     applicationDefaultJvmArgs = listOf("-Djna.library.path=/opt/homebrew/lib")
 }
 
+tasks.run {
+    standardInput = System.`in`
+    if (project.hasProperty("appArgs")) {
+        args = (project.property("appArgs") as String).split(" ")
+    }
+}
+
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "phizz.MainKt"
