@@ -11,23 +11,34 @@ fun main(args: Array<String>) {
     var dvdIsoPath: String? = null
     var bluRayIsoPath: String? = null
 
-    args.forEachIndexed { index, arg ->
-        when (arg) {
+    var i = 0
+    while (i < args.size) {
+        when (args[i]) {
             "--dvd" -> {
-                if (index + 1 < args.size) {
-                    dvdIsoPath = args[index + 1]
+                if (i + 1 < args.size) {
+                    dvdIsoPath = args[i + 1]
+                    i++ // Consume next argument
                 }
             }
             "--bluray" -> {
-                if (index + 1 < args.size) {
-                    bluRayIsoPath = args[index + 1]
+                if (i + 1 < args.size) {
+                    bluRayIsoPath = args[i + 1]
+                    i++ // Consume next argument
                 }
             }
         }
+        i++
     }
 
-    val finalDvdIsoPath = dvdIsoPath ?: "/non/existent/dvd.iso"
-    val finalBluRayIsoPath = bluRayIsoPath ?: "/non/existent/bluray.iso"
+    val finalDvdIsoPath = dvdIsoPath?.let { java.io.File(it).canonicalPath } ?: "/non/existent/dvd.iso"
+    val finalBluRayIsoPath = bluRayIsoPath?.let { java.io.File(it).canonicalPath } ?: "/non/existent/bluray.iso"
+
+    logger.info { "Attempting to open DVD at: $finalDvdIsoPath" }
+
+    val dvdFile = java.io.File(finalDvdIsoPath)
+    if (!dvdFile.exists() || !dvdFile.canRead()) {
+        logger.error { "DVD file does not exist or cannot be read at: $finalDvdIsoPath" }
+    }
 
     // Test LibDvdNav
     val libDvdNav = Native.load("dvdnav", LibDvdNav::class.java)
