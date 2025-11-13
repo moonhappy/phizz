@@ -47,6 +47,7 @@ tasks.withType<Jar> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    jvmArgs = listOf("-Djna.library.path=/opt/homebrew/lib")
     testLogging {
         events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
     }
