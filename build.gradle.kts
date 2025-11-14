@@ -19,6 +19,8 @@ dependencies {
 
     // JNA
     implementation("net.java.dev.jna:jna:5.12.1")
+    implementation(files("libs/libbluray/src/.libs/libbluray-j2se-1.4.0.jar"))
+    implementation(files("libs/libbluray/src/.libs/libbluray-awt-j2se-1.4.0.jar"))
 
     // Testing
     testImplementation(kotlin("test-junit5"))
@@ -137,6 +139,19 @@ val copyLibbluray by tasks.registering(Copy::class) {
             Files.createSymbolicLink(symlink, target.fileName)
         }
     }
+}
+
+val buildLibblurayBdJ by tasks.registering(Exec::class) {
+    description = "Builds the libbluray bd-j JARs."
+    group = "build"
+    workingDir(layout.projectDirectory.dir("libs/libbluray/src/libbluray/bdj"))
+    commandLine(
+        "ant", "-Dversion=j2se-1.4.0", "-Djava_version_asm=1.8", "-Djava_version_bdj=1.8", "-Dsrc_awt=:java-j2se:java-build-support"
+    )
+}
+
+tasks.named("compileKotlin") {
+    dependsOn(buildLibblurayBdJ)
 }
 
 tasks.named("processResources") {
