@@ -1,4 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.nio.file.Files
+import java.nio.file.Paths
 
 plugins {
     kotlin("jvm") version "2.0.0"
@@ -26,7 +28,7 @@ dependencies {
 
 application {
     mainClass.set("phizz.MainKt")
-    applicationDefaultJvmArgs = listOf("-Djna.library.path=/opt/homebrew/lib")
+    applicationDefaultJvmArgs = listOf("-Djna.library.path=${layout.buildDirectory.dir("resources/main/natives").get().asFile.absolutePath}")
 }
 
 tasks.run {
@@ -47,7 +49,7 @@ tasks.withType<Jar> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    jvmArgs = listOf("-Djna.library.path=/opt/homebrew/lib")
+    systemProperties["jna.library.path"] = layout.buildDirectory.dir("resources/main/natives").get().asFile.path
     testLogging {
         events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
     }
@@ -63,4 +65,80 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         html.required.set(true)
     }
+}
+
+val buildLibdvdnav by tasks.registering(Exec::class) {
+    description = "Builds the libdvdnav native library."
+    group = "build"
+    workingDir(layout.projectDirectory.dir("libs/libdvdnav"))
+    commandLine(
+        "sh", "-c",
+        """
+        set -e
+        if [ ! -d "subprojects/libdvdread" ]; then
+            echo "Cloning libdvdread..."
+            git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        else
+            echo "libdvdread already cloned."
+        fi
+        echo "Configuring meson..."
+        meson setup build --wipe
+        echo "Compiling with meson..."
+        meson compile -C build
+        """
+    )
+
+}
+
+val copyLibdvdnav by tasks.registering(Copy::class) {
+    dependsOn(buildLibdvdnav)
+    from(file("libs/libdvdnav/build/src")) {
+        include("libdvdnav.so.*", "libdvdnav.*.dylib", "dvdnav.dll", "libdvdnav.dll")
+    }
+    into(layout.projectDirectory.dir("src/main/resources/natives"))
+    doLast {
+        val targetDir = layout.projectDirectory.dir("src/main/resources/natives").asFile
+        val symlink = Paths.get(targetDir.absolutePath, "libdvdnav.dylib")
+        val target = Paths.get(targetDir.absolutePath, "libdvdnav.4.dylib")
+        if (Files.exists(target) && !Files.exists(symlink)) {
+            Files.createSymbolicLink(symlink, target.fileName)
+        }
+    }
+}
+
+val buildLibbluray by tasks.registering(Exec::class) {
+    description = "Builds the libbluray native library."
+    group = "build"
+    workingDir(layout.projectDirectory.dir("libs/libbluray"))
+    commandLine(
+        "sh", "-c",
+        """
+        set -e
+        echo "Configuring meson for libbluray..."
+        meson setup build --wipe
+        echo "Compiling with meson for libbluray..."
+        meson compile -C build
+        """
+    )
+
+}
+
+val copyLibbluray by tasks.registering(Copy::class) {
+    dependsOn(buildLibbluray)
+    from(file("libs/libbluray/build/src")) {
+        include("libbluray.so.*", "libbluray.*.dylib", "bluray.dll", "libbluray.dll")
+    }
+    into(layout.projectDirectory.dir("src/main/resources/natives"))
+    doLast {
+        val targetDir = layout.projectDirectory.dir("src/main/resources/natives").asFile
+        val symlink = Paths.get(targetDir.absolutePath, "libbluray.dylib")
+        val target = Paths.get(targetDir.absolutePath, "libbluray.3.dylib")
+        if (Files.exists(target) && !Files.exists(symlink)) {
+            Files.createSymbolicLink(symlink, target.fileName)
+        }
+    }
+}
+
+tasks.named("processResources") {
+    dependsOn(copyLibdvdnav, copyLibbluray)
 }

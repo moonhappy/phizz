@@ -1,0 +1,6 @@
+[submodule "libs/libdvdnav"]
+	path = libs/libdvdnav
+	url = https://code.videolan.org/videolan/libdvdnav.git
+[submodule "libs/libbluray"]
+	path = libs/libbluray
+	url = https://code.videolan.org/videolan/libbluray.git

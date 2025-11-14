@@ -28,3 +28,4 @@ replay_pid*
 build/
 bin/
 .gradle/
+/src/main/resources/natives/
