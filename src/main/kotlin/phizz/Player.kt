@@ -2,6 +2,7 @@ package phizz
 
 import com.sun.jna.Pointer
 import com.sun.jna.ptr.IntByReference
+import com.sun.jna.ptr.PointerByReference
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -29,7 +30,12 @@ class Player(path: String, private val type: DiscType) {
                 }
                 DiscType.DVD -> {
                     val lib = LibDvdNav.INSTANCE
-                    lib.dvdnav_open(path)
+                    val ptrRef = PointerByReference()
+                    if (lib.dvdnav_open(ptrRef, path) == 1) {
+                        ptrRef.value
+                    } else {
+                        null
+                    }
                 }
             }
 
