@@ -87,10 +87,9 @@ val buildLibdvdnav by tasks.registering(Exec::class) {
             git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
         fi
         
-        if [ ! -d "build" ]; then
-            echo "Configuring meson..."
-            meson setup build
-        fi
+        rm -rf build
+        echo "Configuring meson..."
+        meson setup build
         
         echo "Compiling with meson..."
         meson compile -C build
@@ -127,10 +126,9 @@ val buildLibbluray by tasks.registering(Exec::class) {
         "sh", "-c",
         """
         set -e
-        if [ ! -d "build" ]; then
-            echo "Configuring meson for libbluray..."
-            meson setup build
-        fi
+        rm -rf build
+        echo "Configuring meson for libbluray..."
+        meson setup build
         
         echo "Compiling with meson for libbluray..."
         meson compile -C build
