@@ -55,7 +55,7 @@ class Player(path: String, private val type: DiscType) {
 
     private fun listBluRayTitles() {
         val lib = LibBluRay.INSTANCE
-        val titleCount = lib.bd_get_titles(handle, LibBluRay.TITLES_RECURSIVE)
+        val titleCount = lib.bd_get_titles(handle, LibBluRay.TITLES_ALL, 0)
         if (titleCount == 0) {
             logger.info("No titles found on Blu-ray.")
         } else {
