@@ -24,6 +24,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install meson and ninja
+        run: pip install meson ninja
+
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
