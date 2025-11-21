@@ -73,6 +73,11 @@ val buildLibdvdnav by tasks.registering(Exec::class) {
     description = "Builds the libdvdnav native library."
     group = "build"
     workingDir(layout.projectDirectory.dir("libs/libdvdnav"))
+    
+    inputs.dir(layout.projectDirectory.dir("libs/libdvdnav/src"))
+    inputs.file(layout.projectDirectory.file("libs/libdvdnav/meson.build"))
+    outputs.dir(layout.projectDirectory.dir("libs/libdvdnav/build/src"))
+
     commandLine(
         "sh", "-c",
         """
@@ -80,16 +85,17 @@ val buildLibdvdnav by tasks.registering(Exec::class) {
         if [ ! -d "subprojects/libdvdread" ]; then
             echo "Cloning libdvdread..."
             git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
-        else
-            echo "libdvdread already cloned."
         fi
-        echo "Configuring meson..."
-        meson setup build --wipe
+        
+        if [ ! -d "build" ]; then
+            echo "Configuring meson..."
+            meson setup build
+        fi
+        
         echo "Compiling with meson..."
         meson compile -C build
         """
     )
-
 }
 
 val copyLibdvdnav by tasks.registering(Copy::class) {
@@ -112,17 +118,24 @@ val buildLibbluray by tasks.registering(Exec::class) {
     description = "Builds the libbluray native library."
     group = "build"
     workingDir(layout.projectDirectory.dir("libs/libbluray"))
+
+    inputs.dir(layout.projectDirectory.dir("libs/libbluray/src"))
+    inputs.file(layout.projectDirectory.file("libs/libbluray/meson.build"))
+    outputs.dir(layout.projectDirectory.dir("libs/libbluray/build/src"))
+
     commandLine(
         "sh", "-c",
         """
         set -e
-        echo "Configuring meson for libbluray..."
-        meson setup build --wipe
+        if [ ! -d "build" ]; then
+            echo "Configuring meson for libbluray..."
+            meson setup build
+        fi
+        
         echo "Compiling with meson for libbluray..."
         meson compile -C build
         """
     )
-
 }
 
 val copyLibbluray by tasks.registering(Copy::class) {
