@@ -106,7 +106,8 @@ class Player(path: String, private val type: DiscType) {
         val lib = LibDvdNav.INSTANCE
         val numTitles = IntByReference()
         val result = lib.dvdnav_get_number_of_titles(handle, numTitles)
-        if (result == 0) {
+        // libdvdnav uses DVDNAV_STATUS_OK == 1 for success, DVDNAV_STATUS_ERR == 0 for error
+        if (result == 1) {
             logger.info("Found {} titles on DVD.", numTitles.value)
         } else {
             logger.warn("dvdnav_get_number_of_titles failed with result: {}", result)
