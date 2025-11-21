@@ -69,9 +69,11 @@ class Player(path: String, private val type: DiscType) {
                     val minutes = TimeUnit.SECONDS.toMinutes(duration) % 60
                     val seconds = duration % 60
 
+                    val durationStr = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
                     logger.info(
-                        "  Title {}: Playlist {}, Duration: {:02d}:{:02d}:{:02d}, Chapters: {}, Angles: {}",
-                        i, info.playlist, hours, minutes, seconds, info.chapter_count, info.angle_count
+                        "  Title {}: Playlist {}, Duration: {}, Chapters: {}, Angles: {}",
+                        i, info.playlist, durationStr, info.chapter_count, info.angle_count
                     )
                     logger.info(
                         "    Streams: {} video, {} audio, {} secondary audio, {} interactive graphics",
