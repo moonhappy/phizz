@@ -128,7 +128,7 @@ val buildLibbluray by tasks.registering(Exec::class) {
         set -e
         rm -rf build
         echo "Configuring meson for libbluray..."
-        meson setup build
+        meson setup -Dlibxml2=enabled build
         
         echo "Compiling with meson for libbluray..."
         meson compile -C build
