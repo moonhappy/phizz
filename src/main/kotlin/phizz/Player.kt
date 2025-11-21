@@ -64,10 +64,10 @@ class Player(path: String, private val type: DiscType) {
                 val infoPtr = lib.bd_get_title_info(handle, i, 0)
                 if (infoPtr != null) {
                     val info = BluRayTitleInfo(infoPtr)
-                    val duration = info.duration.toLong()
-                    val hours = TimeUnit.SECONDS.toHours(duration)
-                    val minutes = TimeUnit.SECONDS.toMinutes(duration) % 60
-                    val seconds = duration % 60
+                    val durationSeconds = info.duration / 90000
+                    val hours = TimeUnit.SECONDS.toHours(durationSeconds)
+                    val minutes = TimeUnit.SECONDS.toMinutes(durationSeconds) % 60
+                    val seconds = durationSeconds % 60
 
                     val durationStr = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
@@ -75,10 +75,20 @@ class Player(path: String, private val type: DiscType) {
                         "  Title {}: Playlist {}, Duration: {}, Chapters: {}, Angles: {}",
                         i, info.playlist, durationStr, info.chapter_count, info.angle_count
                     )
-                    logger.info(
-                        "    Streams: {} video, {} audio, {} secondary audio, {} interactive graphics",
-                        info.video_stream_count, info.audio_stream_count, info.pg_stream_count, info.ig_stream_count
-                    )
+
+                    if (info.clip_count > 0 && info.clips != null) {
+                        val clip = BluRayClipInfo(info.clips)
+                        logger.info(
+                            "    Streams: {} video, {} audio, {} secondary audio, {} subtitles, {} interactive graphics",
+                            clip.video_stream_count.toInt() and 0xFF,
+                            clip.audio_stream_count.toInt() and 0xFF,
+                            clip.sec_audio_stream_count.toInt() and 0xFF,
+                            clip.pg_stream_count.toInt() and 0xFF,
+                            clip.ig_stream_count.toInt() and 0xFF
+                        )
+                    } else {
+                        logger.info("    No clips found for title {}", i)
+                    }
                 } else {
                     logger.warn("Could not get info for title {}", i)
                 }
