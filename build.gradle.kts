@@ -165,6 +165,14 @@ tasks.named("compileKotlin") {
     dependsOn(buildLibblurayBdJ)
 }
 
+val copyLibblurayJars by tasks.registering(Copy::class) {
+    dependsOn(buildLibblurayBdJ)
+    from(file("libs/libbluray/src/.libs")) {
+        include("*.jar")
+    }
+    into(layout.projectDirectory.dir("src/main/resources/natives"))
+}
+
 tasks.named("processResources") {
-    dependsOn(copyLibdvdnav, copyLibbluray)
+    dependsOn(copyLibdvdnav, copyLibbluray, copyLibblurayJars)
 }
