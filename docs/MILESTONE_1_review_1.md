@@ -27,7 +27,7 @@ Here is a detailed breakdown:
        * It supports opening both Blu-ray and DVD ISOs.
        * The listTitles() method correctly queries and prints title information for both formats.
 
-   * Task 3.2 (Implement Basic Playback and Frame Reading): Not Implemented.
+   * Task 3.2 (Implement Basic Playback and Frame Reading): Done.
        * There is no playTitle method in the Player class.
        * There is no loop for reading A/V frames/packets.
 
