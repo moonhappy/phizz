@@ -47,12 +47,14 @@ fun main(args: Array<String>) {
     blurayPath?.let {
         val player = Player(it, DiscType.BLURAY)
         player.listTitles()
+        player.playTitle(0) // Play the first title for PoC
         player.close()
     }
 
     dvdPath?.let {
         val player = Player(it, DiscType.DVD)
         player.listTitles()
+        player.playTitle(0) // Play the first title (DVD usually starts at 1, but let's see how our logic handles it or if we just start reading)
         player.close()
     }
 

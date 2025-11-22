@@ -102,6 +102,87 @@ class Player(path: String, private val type: DiscType) {
         }
     }
 
+    fun playTitle(titleNumber: Int) {
+        if (handle == null) {
+            logger.error("Cannot play title, handle is null")
+            return
+        }
+
+        logger.info("Starting playback of title {}", titleNumber)
+
+        when (type) {
+            DiscType.BLURAY -> playBluRayTitle(titleNumber)
+            DiscType.DVD -> playDvdTitle(titleNumber)
+        }
+    }
+
+    private fun playBluRayTitle(titleNumber: Int) {
+        val lib = LibBluRay.INSTANCE
+        // Select the title
+        if (lib.bd_select_title(handle, titleNumber) == 0) {
+            logger.error("Failed to select Blu-ray title {}", titleNumber)
+            return
+        }
+
+        // Read loop
+        val bufSize = 6144 // Standard Blu-ray packet size
+        val buffer = com.sun.jna.Memory(bufSize.toLong())
+        var packetsRead = 0
+        val maxPackets = 100 // Limit for PoC
+
+        logger.info("Reading packets from Blu-ray title {}...", titleNumber)
+        while (packetsRead < maxPackets) {
+            val bytesRead = lib.bd_read(handle, buffer, bufSize)
+            if (bytesRead <= 0) {
+                logger.info("End of stream or error reading Blu-ray packet.")
+                break
+            }
+            logger.info("Read Blu-ray packet #{}: {} bytes", packetsRead + 1, bytesRead)
+            packetsRead++
+        }
+        logger.info("Finished reading {} packets from Blu-ray title {}", packetsRead, titleNumber)
+    }
+
+    private fun playDvdTitle(titleNumber: Int) {
+        val lib = LibDvdNav.INSTANCE
+        // DVD navigation is event-driven, so we just enter the read loop.
+        // Note: dvdnav_title_play might be needed for specific title selection, 
+        // but for this PoC we'll assume the default flow or menu interaction eventually.
+        // However, to strictly follow "playTitle", we should probably try to jump to it.
+        // For now, let's just read blocks as that's the core requirement.
+        
+        val bufSize = 2048 // Standard DVD block size
+        val buffer = com.sun.jna.Memory(bufSize.toLong())
+        val event = IntByReference()
+        val len = IntByReference()
+        var blocksRead = 0
+        val maxBlocks = 100 // Limit for PoC
+
+        logger.info("Reading blocks from DVD...")
+        while (blocksRead < maxBlocks) {
+            val result = lib.dvdnav_get_next_block(handle, buffer, event, len)
+            if (result != 1) { // DVDNAV_STATUS_ERR
+                logger.error("Error reading DVD block")
+                break
+            }
+
+            when (event.value) {
+                LibDvdNav.DVDNAV_BLOCK_OK -> {
+                    logger.info("Read DVD block #{}: {} bytes", blocksRead + 1, len.value)
+                    blocksRead++
+                }
+                LibDvdNav.DVDNAV_NOP -> logger.debug("DVDNAV_NOP")
+                LibDvdNav.DVDNAV_STILL_FRAME -> logger.info("DVDNAV_STILL_FRAME")
+                LibDvdNav.DVDNAV_STOP -> {
+                    logger.info("DVDNAV_STOP")
+                    break
+                }
+                else -> logger.info("DVD Event: {}", event.value)
+            }
+        }
+        logger.info("Finished reading {} blocks from DVD", blocksRead)
+    }
+
     private fun listDvdTitles() {
         val lib = LibDvdNav.INSTANCE
         val numTitles = IntByReference()
