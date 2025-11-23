@@ -17,6 +17,7 @@ enum class DiscType {
 class Player(path: String, private val type: DiscType) {
 
     private var handle: Pointer? = null
+    @Volatile private var running = false
 
     init {
         val file = File(path)
@@ -128,19 +129,23 @@ class Player(path: String, private val type: DiscType) {
         val bufSize = 6144 // Standard Blu-ray packet size
         val buffer = com.sun.jna.Memory(bufSize.toLong())
         var packetsRead = 0
-        val maxPackets = 100 // Limit for PoC
-
+        
+        running = true
         logger.info("Reading packets from Blu-ray title {}...", titleNumber)
-        while (packetsRead < maxPackets) {
+        while (running) {
             val bytesRead = lib.bd_read(handle, buffer, bufSize)
             if (bytesRead <= 0) {
                 logger.info("End of stream or error reading Blu-ray packet.")
                 break
             }
-            logger.info("Read Blu-ray packet #{}: {} bytes", packetsRead + 1, bytesRead)
+            // Reduce log spam, print every 100th packet
+            if (packetsRead % 100 == 0) {
+                logger.info("Read Blu-ray packet #{}: {} bytes", packetsRead + 1, bytesRead)
+            }
             packetsRead++
         }
         logger.info("Finished reading {} packets from Blu-ray title {}", packetsRead, titleNumber)
+        running = false
     }
 
     private fun playDvdTitle(titleNumber: Int) {
@@ -156,10 +161,10 @@ class Player(path: String, private val type: DiscType) {
         val event = IntByReference()
         val len = IntByReference()
         var blocksRead = 0
-        val maxBlocks = 100 // Limit for PoC
-
+        
+        running = true
         logger.info("Reading blocks from DVD...")
-        while (blocksRead < maxBlocks) {
+        while (running) {
             val result = lib.dvdnav_get_next_block(handle, buffer, event, len)
             if (result != 1) { // DVDNAV_STATUS_ERR
                 logger.error("Error reading DVD block")
@@ -168,7 +173,9 @@ class Player(path: String, private val type: DiscType) {
 
             when (event.value) {
                 LibDvdNav.DVDNAV_BLOCK_OK -> {
-                    logger.info("Read DVD block #{}: {} bytes", blocksRead + 1, len.value)
+                    if (blocksRead % 100 == 0) {
+                        logger.info("Read DVD block #{}: {} bytes", blocksRead + 1, len.value)
+                    }
                     blocksRead++
                 }
                 LibDvdNav.DVDNAV_NOP -> logger.debug("DVDNAV_NOP")
@@ -181,6 +188,7 @@ class Player(path: String, private val type: DiscType) {
             }
         }
         logger.info("Finished reading {} blocks from DVD", blocksRead)
+        running = false
     }
 
     private fun listDvdTitles() {
@@ -195,7 +203,27 @@ class Player(path: String, private val type: DiscType) {
         }
     }
 
+    fun stop() {
+        running = false
+    }
+
+    fun sendKey(key: Int) {
+        if (handle == null) return
+        
+        when (type) {
+            DiscType.BLURAY -> {
+                logger.info("Sending key {} to Blu-ray", key)
+                LibBluRay.INSTANCE.bd_user_input(handle, -1, key)
+            }
+            DiscType.DVD -> {
+                // DVD key input not yet implemented in this task
+                logger.warn("DVD key input not implemented yet")
+            }
+        }
+    }
+
     fun close() {
+        stop()
         if (handle != null) {
             when (type) {
                 DiscType.BLURAY -> {

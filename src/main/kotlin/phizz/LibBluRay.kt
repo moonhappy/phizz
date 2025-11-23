@@ -58,10 +58,19 @@ interface LibBluRay : Library {
     fun bd_select_title(handle: Pointer?, title: Int): Int
     fun bd_read(handle: Pointer?, buf: Pointer?, len: Int): Int
     fun bd_get_title_info(handle: Pointer?, title_index: Int, angle_index: Int): Pointer?
+    fun bd_user_input(handle: Pointer?, pts: Long, key: Int): Int
 
     companion object {
         const val TITLES_ALL = 0
         const val TITLES_RELEVANT = 1
+
+        // Key codes from keys.h
+        const val BD_VK_NONE      = 0xffff
+        const val BD_VK_UP        = 12
+        const val BD_VK_DOWN      = 13
+        const val BD_VK_LEFT      = 14
+        const val BD_VK_RIGHT     = 15
+        const val BD_VK_ENTER     = 16
 
         val INSTANCE: LibBluRay by lazy {
             Native.load("bluray", LibBluRay::class.java)

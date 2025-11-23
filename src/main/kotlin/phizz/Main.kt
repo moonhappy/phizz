@@ -47,16 +47,63 @@ fun main(args: Array<String>) {
     blurayPath?.let {
         val player = Player(it, DiscType.BLURAY)
         player.listTitles()
-        player.playTitle(0) // Play the first title for PoC
+        
+        val thread = Thread { player.playTitle(0) }
+        thread.start()
+        
+        runInteractiveLoop(player)
+        
+        try {
+            thread.join()
+        } catch (e: InterruptedException) {
+            logger.error("Playback thread interrupted")
+        }
         player.close()
     }
 
     dvdPath?.let {
         val player = Player(it, DiscType.DVD)
         player.listTitles()
-        player.playTitle(0) // Play the first title (DVD usually starts at 1, but let's see how our logic handles it or if we just start reading)
+        
+        val thread = Thread { player.playTitle(0) }
+        thread.start()
+        
+        runInteractiveLoop(player)
+        
+        try {
+            thread.join()
+        } catch (e: InterruptedException) {
+            logger.error("Playback thread interrupted")
+        }
         player.close()
     }
 
     logger.info("phizz finished")
+}
+
+fun runInteractiveLoop(player: Player) {
+    val scanner = java.util.Scanner(System.`in`)
+    logger.info("Controls: w=UP, s=DOWN, a=LEFT, d=RIGHT, e=ENTER, q=QUIT")
+    
+    var keepRunning = true
+    while (keepRunning) {
+        if (scanner.hasNext()) {
+            val input = scanner.next()
+            for (char in input) {
+                when (char) {
+                    'w' -> player.sendKey(LibBluRay.BD_VK_UP)
+                    's' -> player.sendKey(LibBluRay.BD_VK_DOWN)
+                    'a' -> player.sendKey(LibBluRay.BD_VK_LEFT)
+                    'd' -> player.sendKey(LibBluRay.BD_VK_RIGHT)
+                    'e' -> player.sendKey(LibBluRay.BD_VK_ENTER)
+                    'q' -> {
+                        keepRunning = false
+                        player.stop()
+                    }
+                }
+            }
+        } else {
+            keepRunning = false
+        }
+    }
 }
