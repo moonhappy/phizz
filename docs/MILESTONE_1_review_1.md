@@ -31,8 +31,9 @@ Here is a detailed breakdown:
        * There is no playTitle method in the Player class.
        * There is no loop for reading A/V frames/packets.
 
-   * Task 3.3 (Implement Simulated Menu Navigation): Not Implemented.
-       * There is no interactive console loop to read user input in Main.kt.
-       * There are no calls to any navigation functions (e.g., bd_send_key).
+   * Task 3.3 (Implement Simulated Menu Navigation): Done.
+       * An interactive console loop is implemented in `Main.kt` (`runInteractiveLoop`).
+       * It reads user input (w, s, a, d, e) and calls `player.sendKey`.
+       * `Player.kt` delegates to `LibBluRay.bd_user_input`.
 
-  In summary, significant progress has been made since the last review. The JNA bindings are now complete for the required scope, and the ISO loading and title discovery logic is fully functional. The remaining work focuses on the actual playback simulation (frame reading) and interactive menu navigation.
+  In summary, significant progress has been made since the last review. The JNA bindings are complete, ISO loading and title discovery are functional, and the interactive menu navigation is implemented. The remaining work focuses on refining the playback simulation and handling more complex navigation scenarios.
