@@ -6,8 +6,16 @@ private val logger = LoggerFactory.getLogger("phizz.Main")
 
 fun main(args: Array<String>) {
     logger.info("phizz started")
+
+    if (args.contains("--server")) {
+        logger.info("Starting server mode")
+        startServer()
+        logger.info("phizz finished")
+        return
+    }
+
     if (args.isEmpty()) {
-        logger.error("No arguments provided. Use --bluray or --dvd.")
+        logger.error("No arguments provided. Use --bluray, --dvd, or --server.")
         return
     }
 
@@ -56,7 +64,7 @@ fun main(args: Array<String>) {
         try {
             thread.join()
         } catch (e: InterruptedException) {
-            logger.error("Playback thread interrupted")
+            logger.error("Playback thread interrupted", e)
         }
         player.close()
     }
@@ -73,7 +81,7 @@ fun main(args: Array<String>) {
         try {
             thread.join()
         } catch (e: InterruptedException) {
-            logger.error("Playback thread interrupted")
+            logger.error("Playback thread interrupted", e)
         }
         player.close()
     }
