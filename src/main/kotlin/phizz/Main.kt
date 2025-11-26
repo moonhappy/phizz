@@ -14,8 +14,13 @@ fun main(args: Array<String>) {
         return
     }
 
+    if (args.contains("--help") || args.contains("-h")) {
+        printUsage()
+        return
+    }
+
     if (args.isEmpty()) {
-        logger.error("No arguments provided. Use --bluray, --dvd, or --server.")
+        printUsage()
         return
     }
 
@@ -114,4 +119,13 @@ fun runInteractiveLoop(player: Player) {
             keepRunning = false
         }
     }
+}
+
+fun printUsage() {
+    println("Usage: phizz [options]")
+    println("Options:")
+    println("  --bluray <path>  Play a Blu-ray ISO or folder")
+    println("  --dvd <path>     Play a DVD ISO or folder")
+    println("  --server         Start in server mode")
+    println("  --help, -h       Show this help message")
 }

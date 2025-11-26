@@ -5,7 +5,7 @@
 ## 1. Epic: API & Server Foundation
 
 - [ ] To Do
-- [ ] In Progress
+- [x] In Progress
 - [ ] Ready to Test
 - [ ] Done
 
@@ -27,7 +27,7 @@
 
 - [ ] To Do
 - [ ] In Progress
-- [ ] Ready to Test
+- [x] Ready to Test
 - [ ] Done
 
 **Labels:** `task`, `server`, `setup`
@@ -43,7 +43,7 @@
 
 ### 1.2. Task: Library Scanning Implementation
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -61,7 +61,7 @@
 
 ### 1.3. Task: REST API Endpoints
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -80,7 +80,7 @@
 
 ## 2. Epic: Session Management & Control
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -101,7 +101,7 @@
 
 ### 2.1. Task: Session Manager Implementation
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -119,7 +119,7 @@
 
 ### 2.2. Task: Playback Control Endpoints
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -136,7 +136,7 @@
 
 ### 2.3. Task: WebSocket Command Interface
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -156,7 +156,7 @@
 
 ## 3. Epic: Media Streaming (WebRTC)
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -177,7 +177,7 @@
 
 ### 3.1. Task: WebRTC Integration & Signaling
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -194,7 +194,7 @@
 
 ### 3.2. Task: Frame Extraction & Encoding Pipeline
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
@@ -212,7 +212,7 @@
 
 ### 3.3. Task: Stream Transmission
 
-- [ ] To Do
+- [x] To Do
 - [ ] In Progress
 - [ ] Ready to Test
 - [ ] Done
