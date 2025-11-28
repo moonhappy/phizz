@@ -99,10 +99,10 @@
 
 ### 2.1. Task: Session Manager Implementation
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `server`, `logic`
 
