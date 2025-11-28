@@ -5,9 +5,9 @@
 ## 1. Epic: API & Server Foundation
 
 - [ ] To Do
-- [x] In Progress
+- [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `epic`, `server`, `api`
 
@@ -41,12 +41,10 @@
 - Configure Netty engine.
 - Set up content negotiation (JSON serialization).
 
-### 1.2. Task: Library Scanning Implementation
-
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `server`, `backend`
 
@@ -61,10 +59,10 @@
 
 ### 1.3. Task: REST API Endpoints
 
-- [x] To Do
+- [ ] To Do
 - [ ] In Progress
 - [ ] Ready to Test
-- [ ] Done
+- [x] Done
 
 **Labels:** `task`, `server`, `api`
 

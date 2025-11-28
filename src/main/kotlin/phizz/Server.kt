@@ -35,5 +35,8 @@ fun Application.module() {
             val isoFiles = libraryService.scanLibrary(libraryPath)
             call.respond(isoFiles)
         }
+        get("/health") {
+            call.respondText("Healthy")
+        }
     }
 }
