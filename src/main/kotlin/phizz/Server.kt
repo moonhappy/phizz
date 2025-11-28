@@ -25,10 +25,8 @@ fun startServer() {
     }.start(wait = true)
 }
 
-fun Application.module() {
+fun Application.module(libraryPath: String = "/tmp/iso_library") {
     val libraryService = LibraryService()
-    // TODO: The library path should be configurable, not hardcoded.
-    val libraryPath = "/tmp/iso_library"
 
     routing {
         get("/library") {
